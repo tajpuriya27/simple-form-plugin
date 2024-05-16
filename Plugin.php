@@ -54,17 +54,16 @@ class Plugin {
 			return;
 		}
 
-		// TODO: Save the form data to the database
+		// ? why $wpdb is shown unknown word by snippet.
 
-		// save form data to WordPress database
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'simple_form_plugin';
+		$table_name = $wpdb->prefix . 'form_data';
 		$wpdb->insert(
 			$table_name,
 			array(
 				'name'  => sanitize_text_field( wp_unslash( $_POST['sfp_name'] ) ),
 				'email' => sanitize_email( wp_unslash( $_POST['sfp_email'] ) ),
-				'bio'   => sanitize_textarea_field( wp_unslash( $_POST['sfp_bio'] ) ),
+				'info'  => sanitize_textarea_field( wp_unslash( $_POST['sfp_bio'] ) ),
 			)
 		);
 	}
