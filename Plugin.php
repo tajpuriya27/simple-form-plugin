@@ -55,7 +55,20 @@ class Plugin {
 		}
 
 		// TODO: Save the form data to the database
+
+		// save form data to WordPress database
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'simple_form_plugin';
+		$wpdb->insert(
+			$table_name,
+			array(
+				'name'  => sanitize_text_field( wp_unslash( $_POST['sfp_name'] ) ),
+				'email' => sanitize_email( wp_unslash( $_POST['sfp_email'] ) ),
+				'bio'   => sanitize_textarea_field( wp_unslash( $_POST['sfp_bio'] ) ),
+			)
+		);
 	}
+
 	public function enqueue() {
 		global $post;
 		if ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'simple-form-plugin' ) ) {
