@@ -107,6 +107,11 @@ class Plugin {
 					id="sfp_email"
 					placeholder="john@doe.com"
 				/>
+				<?php if ( ! empty( $this->error->errors['invalid_email'] ) ) : ?>
+						<div class="invalid-input">
+							<?php echo esc_html( current( $this->error->errors['invalid_email'] ) ); ?>
+						</div>
+					<?php endif; ?>
 			</div>
 			<div class="form-group">
 				<label for="sfp_bio">Bio</label>
@@ -116,25 +121,18 @@ class Plugin {
 					id="sfp_bio"
 					rows="3"
 				></textarea>
+				<?php if ( ! empty( $this->error->errors['invalid_bio'] ) ) : ?>
+						<div class="invalid-input">
+							<?php echo esc_html( current( $this->error->errors['invalid_bio'] ) ); ?>
+						</div>
+					<?php endif; ?>
 			</div>
 			<button type="submit" class="btn btn-primary mt-3">Submit</button>
 		</form>
 		<script>
 
-// 			var form = document.querySelector('#sfp-form')
 
-
-// 			form.addEventListener('submit', function (event) {
-// 			if (!form.checkValidity()) {
-// 				event.preventDefault()
-// 				event.stopPropagation()
-// 			}
-
-// 			form.classList.add('was-validated')
-
-
-// 				})
-// </script>
+		</script>
 		<?php
 		return ob_get_clean();
 	}
