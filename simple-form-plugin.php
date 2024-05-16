@@ -12,7 +12,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-require __DIR__ . '/Plugin.php';
+require_once __DIR__ . '/Plugin.php';
 
-use SimplePluginForm\Plugin;
-Plugin::instance();
+use SimplePluginForm as Plugin;
+Plugin\Plugin::instance();

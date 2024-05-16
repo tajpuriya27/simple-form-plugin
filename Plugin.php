@@ -61,11 +61,13 @@ class Plugin {
 		if ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'simple-form-plugin' ) ) {
 			wp_enqueue_style( 'bootstrap' );
 			wp_enqueue_script( 'bootstrap' );
+			wp_enqueue_style( 'custom_style' );
 		}
 	}
 
 	public function after_wp_init() {
 		wp_register_style( 'bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css', array(), '5.3.2' );
+		wp_register_style( 'custom_style', plugins_url( 'style.css', __FILE__ ), array(), filemtime( __DIR__ . '\style.css' ) );
 		wp_register_script( 'bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js', array( 'jquery' ), '5.3.2', true );
 		$this->add_shortcode();
 	}
@@ -78,7 +80,7 @@ class Plugin {
 		global $wp;
 		ob_start();
 		?>
-		<form method="post" action="<?php echo esc_url( home_url( add_query_arg( array(), $wp->request ) ) ); ?>">
+		<form method="post" action="<?php echo esc_url( home_url( add_query_arg( array(), $wp->request ) ) ); ?>" novalidate  id="sfp-form" >
 			<?php wp_nonce_field( 'simple-form-plugin-action', '_simple_form_plugin_nonce' ); ?>
 				<div class="form-group mb-4">
 					<label for="sfp_name">Name
@@ -91,7 +93,7 @@ class Plugin {
 						placeholder="Enter name"
 					/>
 					<?php if ( ! empty( $this->error->errors['invalid_name'] ) ) : ?>
-						<div class="">
+						<div class="invalid-input">
 							<?php echo esc_html( current( $this->error->errors['invalid_name'] ) ); ?>
 						</div>
 					<?php endif; ?>
@@ -117,7 +119,24 @@ class Plugin {
 			</div>
 			<button type="submit" class="btn btn-primary mt-3">Submit</button>
 		</form>
+		<script>
+
+// 			var form = document.querySelector('#sfp-form')
+
+
+// 			form.addEventListener('submit', function (event) {
+// 			if (!form.checkValidity()) {
+// 				event.preventDefault()
+// 				event.stopPropagation()
+// 			}
+
+// 			form.classList.add('was-validated')
+
+
+// 				})
+// </script>
 		<?php
 		return ob_get_clean();
 	}
 }
+?>
